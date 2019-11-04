@@ -1,0 +1,63 @@
+<form [formGroup]="stockForm" class="example-form" (ngSubmit)="onSubmit()">
+<div>
+<mat-form-field>
+    <mat-select placeholder="Select stocks" formControlName="stocks" multiple>
+      <mat-option *ngFor="let stock of filteredStockNames" [value]="stock.ticker">{{stock.sname}}</mat-option>
+    </mat-select>
+</mat-form-field>
+</div>
+<div>
+<mat-form-field>
+    <mat-select placeholder="Select Time Frame" formControlName="options">
+      <mat-option *ngFor="let t of timeFrame" [value]="t.name">{{t.value}}</mat-option>
+    </mat-select>
+</mat-form-field>
+</div>
+<button mat-raised-button [disabled]="stockForm.invalid" color="primary">Compare</button>
+</form>
+<dx-chart *ngIf = "chartReady"
+      id="chart"
+      title="Stock Price Summary"
+      [dataSource]="chartDataSource">
+    <dxi-series *ngFor="let stock of stockDesc"
+    [valueField]="stock.name"
+    [name]="stock.value">
+    </dxi-series>
+    <dxo-common-series-settings
+        argumentField="date"
+        type="spline">
+        <dxo-point [visible]="false"></dxo-point>
+    </dxo-common-series-settings>
+    <dxo-legend itemTextPosition="left"></dxo-legend>
+    <dxi-value-axis [tickInterval]="1">
+        <dxo-title text="USD"></dxo-title>
+        <dxo-label>
+            <dxo-format
+                type="currency"
+                [precision]="0">
+            </dxo-format>
+        </dxo-label>
+    </dxi-value-axis>
+    <dxo-argument-axis [workdaysOnly]="true">
+        <dxo-label format="shortDate"></dxo-label>
+    </dxo-argument-axis>
+    <dxo-crosshair
+        [enabled]="true"
+        color="#949494"
+        [width]="3"
+        dashStyle="dot">
+        <dxo-label
+            [visible]="true"
+            backgroundColor="#949494">
+            <dxo-font
+                color="#fff"
+                [size]="12">
+            </dxo-font>
+        </dxo-label>
+    </dxo-crosshair>
+    <dxo-export [enabled]="true"></dxo-export>
+    <dxo-tooltip
+        [enabled]="true"
+        location="edge">
+    </dxo-tooltip>
+  </dx-chart>

@@ -1,0 +1,21 @@
+<dx-chart id="chart" title="Stock Price Summary" [dataSource]="source">
+    <dxi-series name="{{symbol}}" valueField="close">
+    </dxi-series>
+    <dxo-common-series-settings argumentField="label" type="spline">
+        <dxo-point [visible]="false"></dxo-point>
+    </dxo-common-series-settings>
+    <dxo-legend itemTextPosition="left"></dxo-legend>
+    <dxi-value-axis [tickInterval]="1">
+        <dxo-title text="USD"></dxo-title>
+        <dxo-label>
+            <dxo-format type="currency" [precision]="0">
+            </dxo-format>
+        </dxo-label>
+    </dxi-value-axis>
+    <dxo-argument-axis [workdaysOnly]="true">
+        <dxo-label format="shortDate"></dxo-label>
+    </dxo-argument-axis>
+    <dxo-export [enabled]="true"></dxo-export>
+    <dxo-tooltip [enabled]="true" location="edge">
+    </dxo-tooltip>
+</dx-chart>

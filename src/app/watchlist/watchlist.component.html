@@ -1,0 +1,47 @@
+<dx-data-grid
+    id="gridContainer"
+    [dataSource]="gridData"
+    [allowColumnReordering]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [showBorders]="true"
+    [hoverStateEnabled]="true"
+    (onRowClick)="onClick($event)"
+    >
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+    <dxo-filter-row 
+    [visible]="true" 
+    [applyFilter]="auto"></dxo-filter-row>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+    <dxo-export [enabled]="true" fileName="MyWatchlist"></dxo-export>
+     <dxo-search-panel 
+        [visible]="true" 
+        [width]="240" 
+        placeholder="Search..."></dxo-search-panel>
+        <dx-button text="Simple"></dx-button>
+    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+    <dxi-column
+        caption="Symbol"
+        dataField="quote.symbol"
+        [width]="230"
+        [fixed]="true"
+        alignment="center"
+    ></dxi-column>
+    <dxi-column caption="Company Name" dataField="quote.companyName" alignment="center" dataType="string"></dxi-column>
+    <dxi-column caption="Primary Exchange" dataField="quote.primaryExchange" alignment="center" dataType="string"></dxi-column>
+    <dxi-column caption="Sector" dataField="quote.sector" alignment="center" dataType="string"></dxi-column>
+    <dxi-column caption="Price" dataField="quote.latestPrice" alignment="center" dataType="number"></dxi-column>
+    <dxi-column caption="Change" dataField="quote.change" alignment="center" dataType="number" format="#0.####"
+    cellTemplate="changeCellTemplate"></dxi-column>
+    <dxi-column caption="Latest Update" dataField="quote.latestTime" alignment="center" dataType="date"></dxi-column>
+    <dxi-column caption="High" dataField="quote.high" alignment="center" dataType="number"></dxi-column>
+    <dxi-column caption="Low" dataField="quote.low" alignment="center" dataType="number"></dxi-column>
+    <div *dxTemplate="let cell of 'changeCellTemplate'" [class.inc]="cell.data.quote.change > 0" [class.dec]="cell.data.quote.change < 0">
+        <span class="current-value">{{cell.text}}</span>
+        <span class="arrow"></span>
+        <span class="diff">{{cell.data.quote.changePercent*100 | number : '1.2-3'}}%</span>
+    </div>
+</dx-data-grid>

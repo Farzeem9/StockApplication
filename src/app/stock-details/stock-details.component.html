@@ -1,0 +1,187 @@
+<mat-card style="margin: 15px;">
+  <div style="margin: 20px;">
+    <div style="font-size: 35px; padding-bottom: 10px;">
+      <strong>{{stockData[0].quote.companyName}}</strong>
+      <span style="cursor: pointer; margin: 7px" (click)="frame.show()">
+        <mat-icon>info</mat-icon>
+      </span>
+      <span style="float: right; margin-right: 15px;">
+        <button mat-icon-button (click)="addToWatchList(); openSnackBar()">
+          <div class="icon">
+            <mat-icon [inline]="true">{{icon}}</mat-icon>
+          </div>
+        </button>
+      </span>
+    </div>
+    <span style="font-size: 25px; padding-bottom: 7px;">
+      <strong>{{stockData[0].quote.latestPrice | currency : 'USD' : number : '1.2-2'}}</strong>
+    </span>
+    <span style="padding-left: 10px" [ngStyle]="{'color':stockData[0].quote.change > 0 ? 'green' : 'red' }">
+      <strong>{{stockData[0].quote.change}}</strong>
+    </span>
+    <span [ngStyle]="{'color':stockData[0].quote.changePercent > 0 ? 'green' : 'red' }">
+      <strong>({{stockData[0].quote.changePercent*100 | number : '1.2-4'}}%)</strong>
+    </span>
+    <div style="font-size: 15px;">{{stockData[0].quote.latestTime}}</div>
+  </div>
+  <mat-tab-group mat-stretch-tabs (focusChange)="onFocusChange($event)">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>trending_up</mat-icon>
+        <strong style="font-size: 16px;">Charts</strong>
+      </ng-template>
+      <!-- <div style="margin: 20px;">
+      <button style="margin-left: 10px; width: 10%" *ngFor="let btn of buttons" mat-raised-button (click)="onClick(btn.name)">
+        {{btn.value}}
+      </button>
+    </div> -->
+      <mat-card style="margin: 15px;">
+        <mat-tab-group mat-stretch-tabs (selectedTabChange)="onClick($event)">
+          <mat-tab *ngFor="let b of buttons" [label]="b.value">
+          </mat-tab>
+        </mat-tab-group>
+        <chart-component [source]="chartData" [symbol]="stockData[0].quote.companyName"></chart-component>
+      </mat-card>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>live_tv</mat-icon>
+        <strong style="font-size: 16px;">News</strong>
+      </ng-template>
+      <div *ngFor="let stock of stockData">
+        <div *ngFor="let n of stock.news">
+          <mat-card style="margin: 20px;">
+            <mat-card-title>{{n.headline}}</mat-card-title>
+            <mat-card-subtitle>{{n.url}}</mat-card-subtitle>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{n.source}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-card-content style="font-size: 18px; height: 70px;">
+                {{n.summary}}
+                <div style="font-size: 15px; float: right;">
+                  Tags : {{n.related}}
+                </div>
+              </mat-card-content>
+            </mat-expansion-panel>
+            <br>
+            <mat-card-footer style="font-size: 14px; float: right; margin-right: 5px;">{{n.datetime}}</mat-card-footer>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>info</mat-icon>
+        <strong style="font-size: 16px;">Details</strong>
+      </ng-template>
+      <img style="max-width: 100px; max-height: 100px; margin-left: 700px; margin-top: 25px; margin-bottom: 20px; " src="{{logo.url}}"
+        alt="Photo of a Shiba Inu">
+      <div *ngFor="let stock of stockData">
+        <mat-grid-list cols="3" rowHeight="9:2">
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Company Name</mat-label>
+              <input matInput readonly [value]="stock.quote.companyName">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Sector</mat-label>
+              <input matInput readonly [value]="stock.quote.sector">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Primary Exchange</mat-label>
+              <input matInput readonly [value]="stock.quote.primaryExchange">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Market Cap</mat-label>
+              <input matInput readonly [value]="stock.quote.marketCap">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Average Total Volume</mat-label>
+              <input matInput readonly [value]="stock.quote.avgTotalVolume">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Latest Price</mat-label>
+              <input matInput readonly [value]="stock.quote.latestPrice">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Latest Volume</mat-label>
+              <input matInput readonly [value]="stock.quote.latestVolume">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Latest Time</mat-label>
+              <input matInput readonly [value]="stock.quote.latestTime">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Previous Close</mat-label>
+              <input matInput readonly [value]="stock.quote.previousClose">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>52 Week High</mat-label>
+              <input matInput readonly [value]="stock.quote.week52High">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>52 Week Low</mat-label>
+              <input matInput readonly [value]="stock.quote.week52Low">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>PE Ratio</mat-label>
+              <input matInput readonly [value]="stock.quote.peRatio">
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>assessment</mat-icon>
+        <strong style="font-size: 16px;">Performance</strong>
+      </ng-template>
+      <app-performance *ngIf="performanceTab" [stockName]="stockName"></app-performance>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>storage</mat-icon>
+        <strong style="font-size: 16px;">Trades</strong>
+      </ng-template>
+      <dx-data-grid id="tradeGrid" [dataSource]="tradeData" [allowColumnReordering]="true" [allowColumnResizing]="true" [columnAutoWidth]="true"
+        [showBorders]="true" [hoverStateEnabled]="true">
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <dxo-filter-row [visible]="true" [applyFilter]="auto"></dxo-filter-row>
+        <dxo-export [enabled]="true" fileName="Stocks"></dxo-export>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dx-button text="Simple"></dx-button>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <dxi-column caption="Venue Name" dataField="venueName" alignment="center" dataType="string"></dxi-column>
+        <dxi-column caption="Price" dataField="price" alignment="center" dataType="number"></dxi-column>
+        <dxi-column caption="Size" dataField="size" alignment="center" dataType="number"></dxi-column>
+        <dxi-column caption="Time" dataField="timeLabel" alignment="center" dataType="string"></dxi-column>
+      </dx-data-grid>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

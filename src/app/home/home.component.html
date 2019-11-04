@@ -1,0 +1,41 @@
+<mat-card [ngClass]="{'gridCard': !isCollapsed, 'notGridCard': isCollapsed}">
+    <dx-data-grid id="gridContainer" [dataSource]="gridData" [allowColumnReordering]="true" [allowColumnResizing]="true" [columnAutoWidth]="true"
+        [showBorders]="true" [hoverStateEnabled]="true">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <!-- <dxo-load-panel [enabled]="false" [showIndicator]="false" [showPane]="false"></dxo-load-panel> -->
+        <dxo-filter-row [visible]="true" [applyFilter]="auto"></dxo-filter-row>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+        <dxo-export [enabled]="true" fileName="Stocks"></dxo-export>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dx-button text="Simple"></dx-button>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+        </dxo-pager>
+        <dxi-column dataField="addButton" caption [width]="40" [allowFiltering]="false" [allowSorting]="false" [fixed]="true" [allowGrouping]="false"
+            [showInColumnChooser]="false" cellTemplate="cellTemplate"></dxi-column>
+        <div *dxTemplate="let dataset of 'cellTemplate'">
+            <mat-icon class="btn-row-action" (click)="iconClick(dataset)" [matMenuTriggerFor]="moreOptions">
+                add_circle_outline
+            </mat-icon>
+            <mat-menu #moreOptions="matMenu">
+                <button (click)="onClick(dataset)" mat-menu-item>
+                    <mat-icon class="mat-menu-icon">info</mat-icon>
+                    <span class="mat-menu-label">Details</span>
+                </button>
+                <button (click)="updateWatchList(dataset)" mat-menu-item>
+                    <mat-icon class="mat-menu-icon">{{icon}}</mat-icon>
+                    <span *ngIf="isAdded" class="mat-menu-label">Remove from WatchList</span>
+                    <span *ngIf="!isAdded" class="mat-menu-label">Add to WatchList</span>
+                </button>
+            </mat-menu>
+        </div>
+
+        <dxi-column caption="Symbol" dataField="symbol" alignment="center" dataType="string"></dxi-column>
+        <dxi-column caption="Company Name" dataField="name" alignment="center" dataType="string"></dxi-column>
+        <dxi-column caption="Date" dataField="date" alignment="center" dataType="date"></dxi-column>
+    </dx-data-grid>
+</mat-card>

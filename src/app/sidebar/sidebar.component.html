@@ -1,0 +1,56 @@
+<mat-toolbar style="background-color: #001529">
+  <mat-toolbar-row>
+    <!-- <span>
+      <button nz-button [nzType]="'primary'" (click)="toggleCollapsed()" style="margin: 10px;">
+        <i class="anticon" [class.anticon-menu-unfold]="isCollapsed" [class.anticon-menu-fold]="!isCollapsed">
+        </i>
+      </button>
+    </span> -->
+    <span style="color: white" class="title">Stock Application</span>
+    <span class="example-spacer"></span>
+    <a [routerLink]="['/']">
+      <mat-icon class="example-icon">home</mat-icon>
+    </a>
+    <a [routerLink]="['/mylist']">
+      <mat-icon class="example-icon">account_circle</mat-icon>
+    </a>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- <div [ngClass]="{'divCollapse': !isCollapsed, 'divNotCollapse': isCollapsed}">
+  <ul nz-menu [nzMode]="'inline'" nzTheme='dark' [nzInlineCollapsed]="isCollapsed">
+    <li nz-menu-item nz-tooltip nzPlacement="right" [nzTitle]="isCollapsed ? 'Navigation One' : ''">
+      <span title>
+        <i class="anticon anticon-mail"></i>
+        <span>Navigation One</span>
+      </span>
+    </li>
+    <li nz-submenu>
+      <span title>
+        <i class="anticon anticon-appstore"></i>
+        <span>Navigation Two</span>
+      </span>
+      <ul>
+        <li nz-menu-item>Option 5</li>
+        <li nz-menu-item>Option 6</li>
+        <li nz-submenu>
+          <span title>Submenu</span>
+          <ul>
+            <li nz-menu-item>Option 7</li>
+            <li nz-menu-item>Option 8</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li nz-submenu>
+      <span title>
+        <i class="anticon anticon-setting"></i>
+        <span>Navigation Three</span>
+      </span>
+      <ul>
+        <li nz-menu-item>Option 9</li>
+        <li nz-menu-item>Option 10</li>
+        <li nz-menu-item>Option 11</li>
+      </ul>
+    </li>
+  </ul>
+</div> -->
